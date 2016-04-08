@@ -12,12 +12,12 @@ exports.handler = function(event, context) {
   var compiledTemplate = handlebars.compile(templates.rawIssueTemplate);
   var compiledMessage = compiledTemplate(event);
   client.connect(function () {
-    client.addListener("end", function() {
-      context.succeed();
-    })
     client.join("##kdaigle-test", function() {
       client.say("##kdaigle-test", compiledMessage);
-      client.disconnect();
+      client.part("##kdaigle-test", function() {
+        client.send("QUIT");
+        context.succeed();
+      })
     });
   });
 }
