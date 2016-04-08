@@ -1,3 +1,5 @@
+process.env[‘PATH’] = process.env[‘PATH’] + ‘:’ + process.env[‘LAMBDA_TASK_ROOT’];
+
 var irc = require("irc"),
   handlebars = require("handlebars"),
   templates = require("./templates/issue");
