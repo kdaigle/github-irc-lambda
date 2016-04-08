@@ -16,6 +16,7 @@ exports.handler = function(event, context) {
       client.say("##kdaigle-test", compiledMessage);
       client.disconnect(function() {
         console.log("Done, disconnecting.")
+        context.succeed();
       });
     });
   });
