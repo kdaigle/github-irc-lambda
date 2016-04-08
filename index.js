@@ -14,12 +14,9 @@ exports.handler = function(event, context) {
   client.connect(function () {
     client.join("##kdaigle-test", function() {
       client.say("##kdaigle-test", compiledMessage);
-      client.part("##kdaigle-test");
+      client.disconnect(function() {
+        console.log("Done, disconnecting.")
+      });
     });
-  });
-  client.disconnect();
-
-  client.addListener('error', function(message) {
-      console.log('error: ', message);
   });
 }
