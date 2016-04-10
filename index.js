@@ -5,16 +5,18 @@ var irc = require("irc"),
   templates = require("./templates/issue");
 
 exports.handler = function(event, context) {
-  var client = new irc.Client("irc.freenode.net", "kdaigleBotTest", {
+  var channelName = event.config.channelName;
+  var botName = event.config.botName;
+  var client = new irc.Client("irc.freenode.net", botName, {
     debug: true,
     autoConnect: false,
   });
   var compiledTemplate = handlebars.compile(templates.rawIssueTemplate);
-  var compiledMessage = compiledTemplate(event);
+  var compiledMessage = compiledTemplate(event.payload);
   client.connect(function () {
-    client.join("##kdaigle-test", function() {
-      client.say("##kdaigle-test", compiledMessage);
-      client.part("##kdaigle-test", function() {
+    client.join(channelName, function() {
+      client.say(channelName, compiledMessage);
+      client.part(channelName, function() {
         client.send("QUIT");
         context.succeed();
       })
